@@ -21,12 +21,12 @@ describe('InputManager', () => {
         expect(new InputManager("name").name).toBe("name");
     });
 
-    it("registers to custom input handlers", () => {
+    it("registers to custom input source", () => {
         const world = new World();
         const input = new InputManager();
-        const handler = jest.spyOn(document, 'addEventListener');
+        const spy = jest.spyOn(document, 'addEventListener');
         input.register(world, document);
-        expect(handler).toHaveBeenCalled();
+        expect(spy).toHaveBeenCalled();
     });
 
     it("handles simple inputs", () => {
@@ -34,11 +34,11 @@ describe('InputManager', () => {
         const input = new InputManager();
 
         input.register(world);
-        expect(input.isPressed("VK_SPACE")).toBeFalsy();
+        expect(input.state(world).isPressed("VK_SPACE")).toBeFalsy();
         trigger("keydown", "SPACE");
-        expect(input.isPressed("VK_SPACE")).toBeTruthy();
+        expect(input.state(world).isPressed("VK_SPACE")).toBeTruthy();
         trigger("keyup", "SPACE");
-        expect(input.isPressed("VK_SPACE")).toBeFalsy();
+        expect(input.state(world).isPressed("VK_SPACE")).toBeFalsy();
     });
 
     it("registers modifiers state", () => {
@@ -46,15 +46,15 @@ describe('InputManager', () => {
         const input = new InputManager();
 
         input.register(world);
-        expect(input.modifiers()).toEqual({ alt: false, ctrl: false });
+        expect(input.state(world).modifiers).toEqual({ alt: false, ctrl: false });
 
         trigger("keydown", "SPACE", true, false);
-        expect(input.modifiers()).toEqual({ alt: true, ctrl: false });
+        expect(input.state(world).modifiers).toEqual({ alt: true, ctrl: false });
 
         trigger("keydown", "SPACE", false, true);
-        expect(input.modifiers()).toEqual({ alt: false, ctrl: true });
+        expect(input.state(world).modifiers).toEqual({ alt: false, ctrl: true });
 
         trigger("keyup", "SPACE", true, true);
-        expect(input.modifiers()).toEqual({ alt: true, ctrl: true });
+        expect(input.state(world).modifiers).toEqual({ alt: true, ctrl: true });
     });
 });

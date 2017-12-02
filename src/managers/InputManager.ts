@@ -4,7 +4,8 @@ import rot from "rot-js";
 
 interface State {
     pressed: Map<number, boolean>,
-    modifiers: Modifiers
+    modifiers: Modifiers,
+    isPressed(vkCode: string): boolean
 }
 
 export interface Modifiers {
@@ -23,6 +24,9 @@ export class InputManager extends Manager<State> {
             modifiers: {
                 ctrl: false,
                 alt: false
+            },
+            isPressed(vkCode) {
+                return this.pressed.get(rot[vkCode]);
             }
         }
     }
@@ -30,30 +34,26 @@ export class InputManager extends Manager<State> {
     register(world: World, handler: GlobalEventHandlers = document) {
         super.register(world);
 
-        handler.addEventListener("keydown", this.keydown.bind(this));
-        handler.addEventListener("keyup", this.keyup.bind(this));
+        handler.addEventListener("keydown", this.keydown.bind(this, world));
+        handler.addEventListener("keyup", this.keyup.bind(this, world));
     }
 
-    isPressed(vkString: string) {
-        return this.state.pressed.get(rot[vkString]);
+    handleModifiers(state, event: KeyboardEvent) {
+        state.modifiers.alt = event.altKey;
+        state.modifiers.ctrl = event.ctrlKey;
     }
 
-    modifiers(): Modifiers {
-        return this.state.modifiers;
+    keydown(world: World, event: KeyboardEvent) {
+        this.update(world, (state) => {
+            this.handleModifiers(state, event);
+            state.pressed.set(event.keyCode, true);
+        });
     }
 
-    handleModifiers(event: KeyboardEvent) {
-        this.state.modifiers.alt = event.altKey;
-        this.state.modifiers.ctrl = event.ctrlKey;
-    }
-
-    keydown(event: KeyboardEvent) {
-        this.state.pressed.set(event.keyCode, true);
-        this.handleModifiers(event);
-    }
-
-    keyup(event: KeyboardEvent) {
-        this.state.pressed.set(event.keyCode, false);
-        this.handleModifiers(event);
+    keyup(world: World, event: KeyboardEvent) {
+        this.update(world, (state) => {
+            this.handleModifiers(state, event);
+            state.pressed.set(event.keyCode, false);
+        });
     }
 }
