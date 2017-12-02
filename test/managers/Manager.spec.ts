@@ -1,5 +1,5 @@
 import {Manager, StatelessManager} from '../../src/managers/Manager';
-import {VertexTraverser, World} from "mogwai-ecs/lib";
+import {World} from "mogwai-ecs/lib";
 
 class StatefulManager extends Manager<number> {
     initialState(): number {
