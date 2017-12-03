@@ -14,5 +14,4 @@ export class Rectangle extends Shape {
             return Alphabet.Floor;
         }
     }
-
 }

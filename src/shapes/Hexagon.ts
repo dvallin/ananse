@@ -15,14 +15,15 @@ export class Hexagon extends Shape {
     }
 
     pixel(x, y): Alphabet {
+        // if not flat rotate is if it was flat.
         if (this.flat) {
-            return this.alignedPixel(x, y, this.height);
+            return this.flatPixel(x, y, this.height);
         } else {
-            return this.alignedPixel(y, x, this.width);
+            return this.flatPixel(y, x, this.width);
         }
     }
 
-    alignedPixel(x: number, y: number, lines: number): Alphabet {
+    private flatPixel(x: number, y: number, lines: number): Alphabet {
         let index;
         if(y < lines / 2) {
             index = y;
@@ -47,5 +48,4 @@ export class Hexagon extends Shape {
             return Alphabet.Empty;
         }
     }
-
 }
