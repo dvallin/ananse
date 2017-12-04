@@ -1,4 +1,3 @@
-
 export enum Alphabet {
     Wall,
     Floor,

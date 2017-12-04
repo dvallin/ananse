@@ -6,6 +6,9 @@ yarn-debug.log*
 yarn-error.log*
 /test/unit/coverage/
 coverage
+_bundles/
+lib-esm/
+lib/
 
 # Editor directories and files
 .idea

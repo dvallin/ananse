@@ -1,6 +1,6 @@
 import {World, VectorStorage} from "mogwai-ecs/lib";
 
-export abstract class Manager<State> {
+export abstract class Manager<State extends object> {
     public stateId: number;
     public name: string;
 
@@ -15,7 +15,8 @@ export abstract class Manager<State> {
         //TODO(Mogwai): use SingletonStorage, DenseVectorStorage or HashMapStorage
         world.registerComponent(this.name, new VectorStorage());
         //TODO(Mogwai): define defaulting for entity()
-        this.stateId = world.entity().with(this.name, this.initialState()).close();
+        //TODO(Mogwai): generic .with()
+        this.stateId = world.entity(undefined).with(this.name, <object> this.initialState()).close();
     }
 
     state(world: World): State {
@@ -30,8 +31,8 @@ export abstract class Manager<State> {
     }
 }
 
-export class StatelessManager extends Manager<void> {
-    initialState(): void {
+export class StatelessManager extends Manager<undefined> {
+    initialState(): undefined {
         return undefined;
     }
 }
