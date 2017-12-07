@@ -1,9 +1,25 @@
+import {Position} from "./space/Position";
+
 export enum Alphabet {
-    Room,
-    Corridor,
     Floor,
     Wall,
     Empty,
+}
+
+export function rasterizeLR(p: Position, left: number, right: number, full: boolean) {
+    if(p.x < left) {
+        return Alphabet.Empty;
+    } else if (p.x == left) {
+        return Alphabet.Wall;
+    } else if (p.x <= right) {
+        if(full || p.x == right) {
+            return Alphabet.Wall;
+        } else {
+            return Alphabet.Floor;
+        }
+    } else {
+        return Alphabet.Empty;
+    }
 }
 
 export abstract class Rasterizable {
@@ -22,7 +38,7 @@ export abstract class Rasterizable {
         }
         for (let y = 0; y < this.height; y++) {
             for (let x = 0; x < this.width; x++) {
-                s += printer(this.pixel(x, y));
+                s += printer(this.pixel(new Position(x, y)));
             }
             if(y != this.height-1) {
                 s += '\n';
@@ -31,5 +47,5 @@ export abstract class Rasterizable {
         return s;
     }
 
-    abstract pixel(x, y): Alphabet;
+    abstract pixel(p: Position): Alphabet;
 }

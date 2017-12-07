@@ -1,4 +1,4 @@
-
+import {Position} from "../space/Position";
 import {Alphabet, Rasterizable} from "../Rasterizable";
 
 export class Ellipse extends Rasterizable {
@@ -6,23 +6,22 @@ export class Ellipse extends Rasterizable {
         super(width, height);
     }
 
-    pixel(x: number, y: number): Alphabet {
-        const cx = this.width/2;
-        const cy = this.height/2;
-        if(!Ellipse.inside(x, y, cx, cy, this.width, this.height)) {
+    pixel(p: Position): Alphabet {
+        const c = new Position(this.width/2, this.height/2);
+        if(!Ellipse.inside(p, c, this.width, this.height)) {
             return Alphabet.Empty;
-        } else if(!Ellipse.inside(x, y, cx, cy,this.width-2, this.height-2)) {
+        } else if(!Ellipse.inside(p, c,this.width-2, this.height-2)) {
             return Alphabet.Wall;
         } else {
             return Alphabet.Floor;
         }
     }
 
-    static inside(x: number, y: number, cx: number, cy: number, width: number, height: number): boolean {
+    static inside(p: Position, c: Position, width: number, height: number): boolean {
         const a = Math.floor(width/2);
         const b = Math.floor(height/2);
-        const dx = (x+0.5) - (cx);
-        const dy = (y+0.5) - (cy);
+        const dx = (p.x+0.5) - c.x;
+        const dy = (p.y+0.5) - c.y;
         const d = (dx*dx) / (a*a) + (dy*dy) / (b*b);
         return d <= 1.0
     }

@@ -1,5 +1,5 @@
-
-import {Alphabet, Rasterizable} from "../Rasterizable";
+import {Position} from "../space/Position";
+import {Alphabet, Rasterizable, rasterizeLR} from "../Rasterizable";
 
 export class Hexagon extends Rasterizable {
     side: number;
@@ -14,38 +14,24 @@ export class Hexagon extends Rasterizable {
         this.side = side;
     }
 
-    pixel(x, y): Alphabet {
+    pixel(p: Position): Alphabet {
         // if not flat rotate is if it was flat.
         if (this.flat) {
-            return this.flatPixel(x, y, this.height);
+            return this.flatPixel(p, this.height);
         } else {
-            return this.flatPixel(y, x, this.width);
+            return this.flatPixel(p.flip(), this.width);
         }
     }
 
-    private flatPixel(x: number, y: number, lines: number): Alphabet {
+    private flatPixel(p: Position, lines: number): Alphabet {
         let index;
-        if(y < lines / 2) {
-            index = y;
+        if(p.y < lines / 2) {
+            index = p.y;
         } else {
-            index = lines - y - 1;
+            index = lines - p.y - 1;
         }
-
         let outer = this.side - 1 - index;
         let inner = this.side + 2 * index;
-
-        if(x < outer) {
-            return Alphabet.Empty;
-        } else if (x == outer) {
-            return Alphabet.Wall;
-        } else if (x < outer + inner) {
-            if(index == 0 || x == outer + inner - 1) {
-                return Alphabet.Wall;
-            } else {
-                return Alphabet.Floor;
-            }
-        } else {
-            return Alphabet.Empty;
-        }
+        return rasterizeLR(p, outer, outer + inner - 1, index == 0);
     }
 }

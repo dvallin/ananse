@@ -5,17 +5,21 @@ export class Grid extends Rasterizable {
     emptyCell: EmptyCell;
     grid: Array<Rasterizable>;
 
-    constructor(width: number, height: number) {
-        super(width, height);
+    constructor(width: number, height: number, cellWidth: number, cellHeight) {
+        super(width*cellWidth, height*cellHeight);
         this.grid = [];
-        this.emptyCell = new EmptyCell(1,1);
+        this.emptyCell = new EmptyCell(cellWidth,cellHeight);
     }
 
-    at(x, y): Rasterizable {
+    at(x: number, y: number): Rasterizable {
         return this.grid[x + y*this.width] || this.emptyCell;
     }
 
-    pixel(x, y): Alphabet {
+    pixel(x: number, y: number): Alphabet {
         return this.at(x,y).pixel(x, y);
+    }
+
+    rectRoom(x: number, y: number) {
+
     }
 }

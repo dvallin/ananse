@@ -13,7 +13,7 @@ export class Room extends Rasterizable {
     }
 
     center(): Position {
-        return new Position(
+        return Position.inGrid(
             this.shape.width / 2 + this.position.x,
             this.shape.height / 2 + this.position.y
         );
@@ -28,7 +28,7 @@ export class Room extends Rasterizable {
         );
     }
 
-    pixel(x, y): Alphabet {
-        return this.shape.pixel(x, y);
+    pixel(p: Position): Alphabet {
+        return this.shape.pixel(p);
     }
 }
