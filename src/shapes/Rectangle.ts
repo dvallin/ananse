@@ -1,7 +1,7 @@
 import {Position} from "../space/Position";
-import {Alphabet, Rasterizable} from "../Rasterizable";
+import {Alphabet, LineByLineRasterizable} from "../Rasterizable";
 
-export class Rectangle extends Rasterizable {
+export class Rectangle extends LineByLineRasterizable<Alphabet> {
 
     constructor(width: number, height: number) {
         super(width, height);

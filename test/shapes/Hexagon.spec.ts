@@ -1,5 +1,5 @@
 import {Hexagon} from "../../src/shapes/Hexagon";
-import {assertRasterizable} from "../AssertionUtils";
+import {assertPixelRaster} from "../AssertionUtils";
 
 // w: 4, h: 3
 const hex2 = ` # 
@@ -48,15 +48,15 @@ const hex4_f = `   ####
 
 describe("Hexagon", () => {
     it("generates a Hexagon", () => {
-        assertRasterizable(new Hexagon(0), 0, 0, "");
-        assertRasterizable(new Hexagon(1), 1, 1, "#");
-        assertRasterizable(new Hexagon(2), 3, 4, hex2);
-        assertRasterizable(new Hexagon(3), 5, 7, hex3);
-        assertRasterizable(new Hexagon(4), 7, 10, hex4);
-        assertRasterizable(new Hexagon(0, true), 0, 0, "");
-        assertRasterizable(new Hexagon(1, true), 1, 1, "#");
-        assertRasterizable(new Hexagon(2, true), 4, 3, hex2_f);
-        assertRasterizable(new Hexagon(3, true), 7, 5, hex3_f);
-        assertRasterizable(new Hexagon(4, true), 10, 7, hex4_f);
+        assertPixelRaster(new Hexagon(0), 0, 0, "");
+        assertPixelRaster(new Hexagon(1), 1, 1, "#");
+        assertPixelRaster(new Hexagon(2), 3, 4, hex2);
+        assertPixelRaster(new Hexagon(3), 5, 7, hex3);
+        assertPixelRaster(new Hexagon(4), 7, 10, hex4);
+        assertPixelRaster(new Hexagon(0, true), 0, 0, "");
+        assertPixelRaster(new Hexagon(1, true), 1, 1, "#");
+        assertPixelRaster(new Hexagon(2, true), 4, 3, hex2_f);
+        assertPixelRaster(new Hexagon(3, true), 7, 5, hex3_f);
+        assertPixelRaster(new Hexagon(4, true), 10, 7, hex4_f);
     })
 });

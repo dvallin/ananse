@@ -1,7 +1,7 @@
 import {Position} from "../space/Position";
-import {Alphabet, Rasterizable} from "../Rasterizable";
+import {Alphabet, LineByLineRasterizable} from "../Rasterizable";
 
-export class Ellipse extends Rasterizable {
+export class Ellipse extends LineByLineRasterizable<Alphabet> {
     constructor(width: number, height: number) {
         super(width, height);
     }

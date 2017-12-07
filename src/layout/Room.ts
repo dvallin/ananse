@@ -1,13 +1,13 @@
 import {Position} from "../space/Position";
 import {BoundingRect} from "../space/BoundingRect";
-import {Rasterizable, Alphabet} from "../Rasterizable";
+import {Alphabet, LineByLineRasterizable} from "../Rasterizable";
 
-export class Room extends Rasterizable {
+export class Room extends LineByLineRasterizable<Alphabet> {
     position: Position;
-    shape: Rasterizable;
+    shape: LineByLineRasterizable<Alphabet>;
 
-    constructor(position: Position, shape: Rasterizable) {
-        super(shape.width, shape.height);
+    constructor(position: Position, shape: LineByLineRasterizable<Alphabet>) {
+        super(shape.width, shape.height)
         this.shape = shape;
         this.position = position;
     }

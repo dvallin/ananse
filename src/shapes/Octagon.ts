@@ -1,7 +1,7 @@
 import {Position} from "../space/Position";
-import {Alphabet, Rasterizable, rasterizeLR} from "../Rasterizable";
+import {Alphabet, LineByLineRasterizable, rasterizeLR} from "../Rasterizable";
 
-export class Octagon extends Rasterizable {
+export class Octagon extends LineByLineRasterizable<Alphabet> {
     side: number;
 
     constructor(side: number) {

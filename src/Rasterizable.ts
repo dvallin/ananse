@@ -1,12 +1,12 @@
 import {Position} from "./space/Position";
 
 export enum Alphabet {
-    Floor,
-    Wall,
     Empty,
+    Wall,
+    Floor,
 }
 
-export function rasterizeLR(p: Position, left: number, right: number, full: boolean) {
+export function rasterizeLR(p: Position, left: number, right: number, full: boolean): Alphabet {
     if(p.x < left) {
         return Alphabet.Empty;
     } else if (p.x == left) {
@@ -22,7 +22,7 @@ export function rasterizeLR(p: Position, left: number, right: number, full: bool
     }
 }
 
-export abstract class Rasterizable {
+export abstract class Rasterizable<T> {
     public width: number;
     public height: number;
 
@@ -31,14 +31,15 @@ export abstract class Rasterizable {
         this.height = height;
     }
 
-    print(printer: (a: Alphabet) => string): string {
+    print(printer: (a: T) => string): string {
         let s = "";
         if(this.height == 0 || this.width == 0) {
             return s;
         }
+        const pixels = this.pixels();
         for (let y = 0; y < this.height; y++) {
             for (let x = 0; x < this.width; x++) {
-                s += printer(this.pixel(new Position(x, y)));
+                s += printer(pixels[(new Position(x, y).index(this.width))]);
             }
             if(y != this.height-1) {
                 s += '\n';
@@ -47,5 +48,19 @@ export abstract class Rasterizable {
         return s;
     }
 
-    abstract pixel(p: Position): Alphabet;
+    abstract pixels(): Array<T>;
+}
+
+export abstract class LineByLineRasterizable<T> extends Rasterizable<T> {
+    pixels(): Array<T> {
+        const result = [];
+        for (let y = 0; y < this.height; y++) {
+            for (let x = 0; x < this.width; x++) {
+                result.push(this.pixel(new Position(x,y));
+            }
+        }
+        return result;
+    }
+
+    abstract pixel(p: Position): T;
 }

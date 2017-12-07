@@ -1,7 +1,7 @@
 import {Position} from "../space/Position";
-import {Alphabet, Rasterizable, rasterizeLR} from "../Rasterizable";
+import {Alphabet, LineByLineRasterizable, rasterizeLR} from "../Rasterizable";
 
-export class Hexagon extends Rasterizable {
+export class Hexagon extends LineByLineRasterizable<Alphabet> {
     side: number;
     flat: boolean;
 
