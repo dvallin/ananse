@@ -1,10 +1,12 @@
 export enum Alphabet {
-    Wall,
+    Room,
+    Corridor,
     Floor,
+    Wall,
     Empty,
 }
 
-export abstract class Shape {
+export abstract class Rasterizable {
     public width: number;
     public height: number;
 
@@ -13,24 +15,14 @@ export abstract class Shape {
         this.height = height;
     }
 
-    print(wall: string, floor: string, empty: string): string {
+    print(printer: (a: Alphabet) => string): string {
         let s = "";
         if(this.height == 0 || this.width == 0) {
             return s;
         }
         for (let y = 0; y < this.height; y++) {
             for (let x = 0; x < this.width; x++) {
-                switch(this.pixel(x, y)) {
-                    case Alphabet.Empty:
-                        s += empty;
-                        break;
-                    case Alphabet.Floor:
-                        s += floor;
-                        break;
-                    case Alphabet.Wall:
-                        s += wall;
-                        break;
-                }
+                s += printer(this.pixel(x, y));
             }
             if(y != this.height-1) {
                 s += '\n';

@@ -1,4 +1,4 @@
-import {Room} from "./rooms/Room";
+import {Room} from "./layout/Room";
 
 import {InputManager} from "./managers/InputManager";
 

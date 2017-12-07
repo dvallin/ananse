@@ -1,7 +1,7 @@
 
-import {Alphabet, Shape} from "./Shape";
+import {Alphabet, Rasterizable} from "../Rasterizable";
 
-export class Hexagon extends Shape {
+export class Hexagon extends Rasterizable {
     side: number;
     flat: boolean;
 

@@ -1,12 +1,13 @@
-import {Shape} from "../shapes/Shape";
 import {Position} from "../space/Position";
 import {BoundingRect} from "../space/BoundingRect";
+import {Rasterizable, Alphabet} from "../Rasterizable";
 
-export class Room {
+export class Room extends Rasterizable {
     position: Position;
-    shape: Shape;
+    shape: Rasterizable;
 
-    constructor(position: Position, shape: Shape) {
+    constructor(position: Position, shape: Rasterizable) {
+        super(shape.width, shape.height);
         this.shape = shape;
         this.position = position;
     }
@@ -25,5 +26,9 @@ export class Room {
             this.position.x + this.shape.width,
             this.position.y + this.shape.height
         );
+    }
+
+    pixel(x, y): Alphabet {
+        return this.shape.pixel(x, y);
     }
 }

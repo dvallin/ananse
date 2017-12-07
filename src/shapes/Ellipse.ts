@@ -1,7 +1,7 @@
 
-import {Alphabet, Shape} from "./Shape";
+import {Alphabet, Rasterizable} from "../Rasterizable";
 
-export class Ellipse extends Shape {
+export class Ellipse extends Rasterizable {
     constructor(width: number, height: number) {
         super(width, height);
     }

@@ -1,7 +1,6 @@
+import {Alphabet, Rasterizable} from "../Rasterizable";
 
-import {Alphabet, Shape} from "./Shape";
-
-export class Rectangle extends Shape {
+export class Rectangle extends Rasterizable {
 
     constructor(width: number, height: number) {
         super(width, height);
@@ -14,4 +13,5 @@ export class Rectangle extends Shape {
             return Alphabet.Floor;
         }
     }
+
 }

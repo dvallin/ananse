@@ -1,7 +1,6 @@
+import {Alphabet, Rasterizable} from "../Rasterizable";
 
-import {Alphabet, Shape} from "./Shape";
-
-export class Octagon extends Shape {
+export class Octagon extends Rasterizable {
     side: number;
 
     constructor(side: number) {
