@@ -7,7 +7,7 @@ export class Room extends LineByLineRasterizable<Alphabet> {
     shape: LineByLineRasterizable<Alphabet>;
 
     constructor(position: Position, shape: LineByLineRasterizable<Alphabet>) {
-        super(shape.width, shape.height)
+        super(shape.width, shape.height);
         this.shape = shape;
         this.position = position;
     }
@@ -23,12 +23,15 @@ export class Room extends LineByLineRasterizable<Alphabet> {
         return new BoundingRect(
             this.position.x,
             this.position.y,
-            this.position.x + this.shape.width,
-            this.position.y + this.shape.height
+            this.position.x + this.shape.width - 1,
+            this.position.y + this.shape.height - 1
         );
     }
 
     pixel(p: Position): Alphabet {
-        return this.shape.pixel(p);
+        if(this.boundingRect().contains(p)) {
+            return this.shape.pixel(p.minus(this.position));
+        }
+        return Alphabet.Empty;
     }
 }

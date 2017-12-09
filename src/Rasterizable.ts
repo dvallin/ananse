@@ -31,36 +31,42 @@ export abstract class Rasterizable<T> {
         this.height = height;
     }
 
-    print(printer: (a: T) => string): string {
-        let s = "";
-        if(this.height == 0 || this.width == 0) {
-            return s;
-        }
-        const pixels = this.pixels();
-        for (let y = 0; y < this.height; y++) {
-            for (let x = 0; x < this.width; x++) {
-                s += printer(pixels[(new Position(x, y).index(this.width))]);
-            }
-            if(y != this.height-1) {
-                s += '\n';
-            }
-        }
-        return s;
-    }
-
-    abstract pixels(): Array<T>;
+    abstract pixels(offset: Position): Array<T>;
 }
 
 export abstract class LineByLineRasterizable<T> extends Rasterizable<T> {
-    pixels(): Array<T> {
+    pixels(offset: Position): Array<T> {
         const result = [];
         for (let y = 0; y < this.height; y++) {
             for (let x = 0; x < this.width; x++) {
-                result.push(this.pixel(new Position(x,y));
+                const p = new Position(x, y).plus(offset);
+                result.push(this.pixel(p));
             }
         }
         return result;
     }
 
     abstract pixel(p: Position): T;
+}
+
+export class Rasterizer<T> {
+    static print(printer: (a: T) => string,
+                 shape: Rasterizable<T>,
+                 offset: Position = Position.zero()): string {
+        let s = "";
+        if(shape.height == 0 || shape.width == 0) {
+            return s;
+        }
+        const pixels = shape.pixels(offset);
+        for (let y = 0; y < shape.height; y++) {
+            for (let x = 0; x < shape.width; x++) {
+                const p = new Position(x,y);
+                s += printer(pixels[(p.index(shape.width))]);
+            }
+            if(y != shape.height-1) {
+                s += '\n';
+            }
+        }
+        return s;
+    }
 }

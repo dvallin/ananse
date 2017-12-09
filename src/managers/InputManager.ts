@@ -1,4 +1,4 @@
-import {World} from "mogwai-ecs/lib";
+import {World} from "mogwai-ecs";
 import {Manager} from "./Manager";
 import rot from "rot-js";
 

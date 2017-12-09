@@ -10,7 +10,7 @@ export class Grid extends Rasterizable<Alphabet> {
     cellWidth: number;
     cellHeight: number;
 
-    grid: Array<LineByLineRasterizable<Alphabet>>;
+    grid: Array<Room>;
 
     constructor(width: number, height: number, cellWidth: number, cellHeight) {
         super(width*cellWidth, height*cellHeight);
@@ -21,7 +21,7 @@ export class Grid extends Rasterizable<Alphabet> {
         this.cellHeight = cellHeight;
     }
 
-    at(p: Position): Option<LineByLineRasterizable<Alphabet>> {
+    at(p: Position): Option<Room> {
         return Option.just(this.grid[p.index(this.gridWidth)]);
     }
 
@@ -31,9 +31,11 @@ export class Grid extends Rasterizable<Alphabet> {
             for (let cy = 0; cy < this.cellHeight; cy++) {
                 for (let x = 0; x < this.gridWidth; x++) {
                     const cell = this.at(new Position(x, y));
+                    const cellY = y*this.gridHeight + cy;
                     for (let cx = 0; cx < this.cellWidth; cx++) {
+                        const cellX = x*this.gridWidth + cx;
                         result.push(cell
-                            .map(c => c.pixel(new Position(cx, cy)))
+                            .map(c => c.pixel(new Position(cellX, cellY)))
                             .unwrap(Alphabet.Empty)
                         );
                     }
